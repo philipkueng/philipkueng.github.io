@@ -1,0 +1,28 @@
+.logo-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10%;
+}
+
+#logo {
+  white-space: pre-line;
+  border-top: 4px solid #fdad5c;
+  border-left: 4px solid #fdad5c;
+  padding-left: 6.5px;
+  font-size: 38px;
+  color: #898989;
+  text-transform: lowercase;
+  line-height: 1;
+}
+
+@media screen and (max-width: 400px) {
+  #logo {
+    font-size: 25px;
+    border-width: 3px;
+  }
+
+  .logo-container {
+    margin-top: 20%;
+  }
+}
