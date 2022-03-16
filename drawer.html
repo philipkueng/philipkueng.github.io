@@ -1,0 +1,124 @@
+<html>
+
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        canvas {
+            width: 28vw;
+            height: 80vh;
+            cursor: url("https://www.freeiconspng.com/uploads/hand-cursor-png-click-cursor-hand-icon-13.png"), auto;
+            background: no-repeat center/100% url("./images/pergament.jpeg");
+        }
+    </style>
+    <title>Bibelseite</title>
+    <link rel="stylesheet" href="./assets/styles.css">
+</head>
+
+<body>
+    <a href="./index.html" style="position: absolute; top: 2%; left: 2%;">home</a>
+    <div style="margin-top: 20px"
+        class="flex flex-col justify-center justify-items-center align-center content-center items-center h-screen">
+        <div class="flex flex-col">
+            <canvas id="canvas"></canvas>
+            <div>
+                farben:
+                <div class="flex flex-row justify-between">
+                    <div class="px-3 color-picker text-white" style="background-color: #000"
+                        onclick="changeColor('#000')">
+                        <span>schwarz</span>
+                    </div>
+                    <div class="px-3 color-picker text-white" style="background-color: #072A6C"
+                        onclick="changeColor('#072A6C')">
+                        <span>blau</span>
+                    </div>
+                    <div class="px-3 color-picker text-white" style="background-color: #8F1D21"
+                        onclick="changeColor('#8F1D21')">
+                        <span>rot</span>
+                    </div>
+                    <div class="px-3 color-picker text-white" style="background-color: #236F21"
+                        onclick="changeColor('#236F21')">
+                        <span>grün</span>
+                    </div>
+                    <div class="px-3 color-picker" style="background-color: #ffd700" onclick="changeColor('#ffd700')">
+                        <span>gold</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="antwort m-10 flex justify-between w-52">
+            <input type="button" value="save" id="btn" size="30" onclick="save()"
+                class="bg-blue-500 px-6 py-2 text-white border border-blue-500 primary-button" />
+            <input type="button" value="clear" id="clr" size="23" onclick="erase()"
+                class="border border-blue-500 px-6 py-2 text-blue-500 primary-button" />
+        </div>
+    </div>
+    <script type="text/javascript">
+        let color = "#000";
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let coord = { x: 0, y: 0 };
+        document.addEventListener('mousedown', start);
+        document.addEventListener('mouseup', stop);
+        window.addEventListener('resize', resize);
+
+        function changeColor(newColor) {
+            color = newColor;
+        }
+
+        function resize() {
+            console.log('called resize')
+            ctx.canvas.width = window.innerWidth;
+            ctx.canvas.height = window.innerHeight;
+
+        }
+
+        resize();
+
+        function start(event) {
+            document.addEventListener('mousemove', draw);
+            reposition(event);
+        }
+        function reposition(event) {
+            coord.x = event.offsetX;
+            coord.y = event.offsetY;
+        }
+        function stop() {
+            // console.log('called stop')
+            document.removeEventListener('mousemove', draw);
+        }
+        function draw(event) {
+            ctx.beginPath();
+            ctx.lineWidth = 5;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = color;
+            ctx.moveTo(coord.x, coord.y);
+            reposition(event);
+            ctx.lineTo(coord.x, coord.y);
+            ctx.stroke();
+        }
+
+        function erase() {
+            ctx.clearRect(0, 0, 1000, 1000);
+        }
+
+        function save() {
+            console.log('called save')
+            var uri = canvas.toDataURL();
+            downloadURI(uri, 'bibleseite.png')
+        }
+
+        function downloadURI(uri, name) {
+            var link = document.createElement("a");
+            link.download = name;
+            link.href = uri;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            delete link;
+        }
+    </script>
+
+</body>
+
+</html>
